@@ -1,0 +1,129 @@
+.box {
+    width: 80%;
+    display: flex;
+}
+
+.contractForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-radius: 18px;
+}
+
+.contractForm>span {
+    font-size: 18px;
+    color: #686868;
+    line-height: 23px;
+}
+
+.contractText {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.inputWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.inputWrapper>input {
+    width: 80%;
+    height: 40px;
+    border-radius: 18px;
+    background: #F5F5F5;
+    border: none;
+    margin-bottom: 20px;
+    text-indent: 45px;
+}
+
+.inputWrapper>input:focus {
+    outline: none;
+}
+/* button close*/
+
+.closeButton{
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+.closeButton div {
+    cursor: pointer;
+    position: relative;  
+    height: 40px;
+    width: 40px;
+}
+.closeButton .leftright {
+    height: 4px;
+    width: 30px;
+    position: absolute;
+    margin-top: 24px;
+    background-color: #337AB7;
+    border-radius: 2px;
+    transform: rotate(45deg);
+    transition: all .3s ease-in;
+}
+.closeButton .rightleft {
+    height: 4px;
+    width: 30px;
+    position: absolute;
+    margin-top: 24px;
+    background-color: #337AB7;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    transition: all .3s ease-in;
+}
+.closeButton .close-btn {
+    margin: 54px 0 0 -5px;
+    position: absolute;
+    color: #337AB7;
+    font-family: Tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all .3s ease-in;
+    opacity: 0; 
+}
+.closeButton div:hover .leftright {
+    transform: rotate(-45deg);
+    background-color: #000;
+}
+.closeButton div:hover .rightleft {
+    transform: rotate(45deg);
+    background-color: #000;
+}
+.closeButton div:hover .closeBtn {
+    opacity: 1;
+}
+
+@media (max-width:800px) {
+    .box {
+        width: 50%;
+    }
+}
+
+@media (max-width:700px) {
+    .box {
+        width: 60%;
+    }
+}
+@media (max-width:600px) {
+    .box {
+        width: 90%;
+    }
+    .contractText {
+        font-size: 20px;
+    }
+    .contractForm {
+        margin-bottom: 0px;
+    }
+}

@@ -1,0 +1,161 @@
+.wrapper {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.formWrapper {
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    background: #D9D9D9;
+    box-shadow: 10px 29px 32px rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+    padding: 20px;
+    min-height: 70%;
+    margin-bottom: 5%;
+}
+
+.inboxBlock {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: flex-end;
+}
+
+.contentWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.navBlock {
+    width: 30%;
+    margin-right: 30px;
+}
+
+.contentBlock {
+    width: 73%;
+    position: relative;
+    min-height: 660px;
+    display: flex;
+    flex-direction: column;
+    background: #E6E5E5;
+    border-radius: 18px;
+    padding-bottom: 50px;
+}
+
+.searchBlock {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-around;
+}
+
+.searchArea {
+    width: 70%;
+}
+
+.tableHeader {
+    display: flex;
+    color: #fff;
+    background: #3B6AB3;
+    width: 90%;
+    border-radius: 18px;
+    line-height: 30px;
+    justify-content: space-around;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.tableHeader>span {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.myButton {
+    margin: 0 auto;
+    color: red;
+    border: 3px solid green;
+}
+
+@media (max-width:980px) {
+
+    .navBlock {
+        width: 25%;
+        margin: 0 auto;
+    }
+
+    .contentBlock {
+        width: 73%;
+    }
+
+}
+
+@media (max-width:900px) {
+    .contentWrapper {
+        flex-wrap: wrap;
+    }
+
+    .navBlock {
+        width: 80%;
+    }
+
+    .contentBlock {
+        width: 90%;
+        padding-bottom: 45px;
+    }
+
+    .inboxBlock {
+        margin-bottom: 10px;
+        justify-content: center;
+    }
+
+}
+
+@media (max-width:630px) {
+
+    .searchBlock {
+        flex-wrap: wrap;
+    }
+
+    .searchArea {
+        width: 90%;
+        margin-bottom: 10px;
+    }
+
+    .tableHeader>span {
+        font-size: 10px;
+    }
+
+    .contentBlock {
+        width: 88%;
+    }
+
+    .navBlock {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width:508px) {
+    .contentBlock {
+        width: 100%;
+    }
+
+    .inboxBlock {
+        margin-bottom: 10px;
+        justify-content: center;
+    }
+
+    .formWrapper {
+        padding: 5px;
+    }
+
+    .tableHeader>span {
+        font-size: 10px;
+    }
+}

@@ -1,0 +1,81 @@
+.row {
+    position: relative;
+    margin-top: 5px;
+}
+
+.rowInfo {
+    display: flex;
+    color: #000;
+    background: #fff;
+    
+    border-radius: 18px;
+    justify-content: space-around;
+    margin: 0 auto;
+    /* margin-top: 10px; */
+    min-height: 60px;
+}
+
+.rowInfo:hover {
+    cursor: pointer;
+    background: rgb(232, 240, 245);
+    border: 1px solid rgb(195, 228, 245);
+}
+
+.rowInfo>span {
+    overflow: hidden;
+    vertical-align: middle;
+    display: inline-block;
+    margin: auto 0;
+    word-wrap: break-word;
+    line-height: 20px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}
+
+.subjectSpan {
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 310px;
+    text-align: start;
+    line-height: 20px;
+    overflow: hidden;
+}
+
+.regButton {
+    display: flex;
+    justify-content: center;
+    margin: 5px 0 5px 0;
+}
+
+.dateInfo {
+    width: 30%;
+    text-align: center;
+}
+
+@media (max-width:1150px) {
+    .rowInfo>span {
+        font-size: 14px;
+    }
+}
+
+@media (max-width:630px) {
+    .rowInfo>span {
+        font-size: 10px;
+        line-height: 15px;
+    }
+    .dateInfo {
+        width: 35%;
+        text-align: center;
+    }
+    .subjectSpan {
+        width: 45%;
+    }
+}
+
+@media (max-width:440px) {
+    .rowInfo>span {
+        font-size: 10px;
+    }
+}

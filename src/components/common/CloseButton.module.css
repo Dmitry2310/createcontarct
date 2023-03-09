@@ -1,0 +1,67 @@
+/* button close*/
+
+.closeButton{
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: 0px;
+    top: -3%;
+}
+.closeButton div {
+    cursor: pointer;
+    position: relative;  
+    height: 40px;
+    width: 40px;
+}
+.closeButton .leftright {
+    height: 4px;
+    width: 30px;
+    position: absolute;
+    margin-top: 24px;
+    background-color: #337AB7;
+    border-radius: 2px;
+    transform: rotate(45deg);
+    transition: all .3s ease-in;
+}
+.closeButton .rightleft {
+    height: 4px;
+    width: 30px;
+    position: absolute;
+    margin-top: 24px;
+    background-color: #337AB7;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    transition: all .3s ease-in;
+}
+.closeButton .close-btn {
+    margin: 54px 0 0 -5px;
+    position: absolute;
+    color: #337AB7;
+    font-family: Tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all .3s ease-in;
+    opacity: 0; 
+}
+.closeButton div:hover .leftright {
+    transform: rotate(-45deg);
+    background-color: #000;
+}
+.closeButton div:hover .rightleft {
+    transform: rotate(45deg);
+    background-color: #000;
+}
+.closeButton div:hover .closeBtn {
+    opacity: 1;
+}
+
+
+@media (max-width:900px) {
+    .closeButton {
+        margin-top: 6%;
+        left: -10px;
+    }
+    }
+

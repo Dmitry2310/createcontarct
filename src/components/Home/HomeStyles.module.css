@@ -1,0 +1,75 @@
+.coverImage {
+    display: flex;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.imageOpacity {
+    min-height: 180px;
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(90deg, rgba(170, 170, 170, 0.3) 0%, rgba(254, 254, 254, 0) 28%, rgba(1, 1, 9, 0.6629245448179272) 67%);
+    position: absolute;
+}
+
+.image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.imageText {
+    width: 400px;
+    padding: 15px;
+    height: 300px;
+    position: absolute;
+    color: white;
+    font-size: 48px;
+    top: 0;
+    right: 0;
+    font-weight: 700;
+    text-align: right;
+}
+
+.imageLogoLastBlock {
+    width: 90px;
+    height: 90px;
+    margin: 20px 0 20px 40px;
+}
+
+
+@media (max-width:800px) {
+    .imageText {
+        font-size: 38px;
+        width: 320px;
+    }
+
+    .image {
+        height: 240px;
+    }
+
+    .imageOpacity {
+        height: 240px;
+    }
+
+    .imageLogoLastBlock {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width:500px) {
+    .imageText {
+        font-size: 25px;
+        width: 220px;
+    }
+
+    .image {
+        height: 180px;
+    }
+
+    .imageOpacity {
+        height: 10px;
+    }
+}

@@ -1,0 +1,60 @@
+.box {
+    width: 40%;
+}
+.registerForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-radius: 18px;
+}
+.registerForm> span {
+    font-size: 18px;
+    color: #686868;
+    line-height: 23px;
+}
+.registerText {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+}
+.inputWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.inputWrapper> input {
+    width: 80%;
+    height: 40px;
+    border-radius: 18px;
+    background: #F5F5F5;
+    border: none;
+    margin-bottom: 20px;
+    text-indent: 45px;
+}
+.inputWrapper>input:focus {
+    outline: none;
+}
+
+@media (max-width:800px) {
+    .box {
+        width: 60%;
+    }
+  }
+  
+  @media (max-width:700px) {
+    .box {
+        width: 80%;
+    }
+  }
+  
+  @media (max-width:400px) {
+    .box {
+        width: 90%;
+    }
+  }
+ 

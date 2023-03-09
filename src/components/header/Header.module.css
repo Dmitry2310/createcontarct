@@ -1,0 +1,106 @@
+.wrapper {
+  width: 100%;
+  color: aliceblue;
+  display: flex;
+  position: sticky;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgba(40, 85, 154, 0.93);
+}
+
+.logoApplication {
+  display: flex;
+}
+
+.logoApplication:hover {
+  cursor: pointer;
+}
+
+.logoApplication>img {
+  width: 97px;
+  height: 97px;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nameApplication {
+  font-family: 'Handjet';
+  font-weight: 700;
+  font-size: 36px;
+}
+
+.descriptor {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+@media (max-width:800px) {
+
+  .logoApplication>img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .nameApplication {
+    font-size: 30px;
+  }
+
+  .descriptor {
+    font-size: 8px;
+  }
+}
+@media (max-width:930px) {
+  .descriptor {
+    font-size: 10px;
+  }
+}
+
+@media (max-width:700px) {
+  .logoApplication>img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .nameApplication {
+    font-size: 24px;
+  }
+
+  .descriptor {
+    font-size: 10px;
+  }
+}
+
+@media (max-width:400px) {
+  .logoApplication>img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nameApplication {
+    font-size: 22px;
+  }
+
+  .descriptor {
+    font-size: 9px;
+  }
+}
+@media (max-width:320px) {
+  .logoApplication>img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .nameApplication {
+    font-size: 19px;
+  }
+
+  .descriptor {
+    font-size: 7px;
+  }
+}

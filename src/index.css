@@ -1,13 +1,41 @@
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Handjet';
+  src: local('Handjet'), url(./assets/fonts/HandjetSquareDouble-Medium.ttf) format('opentype');
+}
+
+html, body {
+  min-height: 100vh;
+  overflow: scroll;
+  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(0.51deg, rgba(15, 37, 87, 0.9) 0.4%, rgba(75, 159, 225, 0.93) 99.52%);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 1280px;
+  margin: auto;
+}
+
+
+
+
