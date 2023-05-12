@@ -1,4 +1,4 @@
-import { api, processor } from "./client";
+import { api, processor, apiPreview } from "./client";
 
 // contract crud api
 export const createContract = (
@@ -27,6 +27,9 @@ export const updateContract = (contractId, status) =>
   });
 export const sendContractEmail = (type, clientId) =>
   api.post(`mails/${clientId}`, { type });
+
+  export const getDocPreview = (fileName) =>
+  processor.get(`uploadfiles/${fileName}/${0}`);
 
 export const updateContractHash = (contractId, hash) =>
   api.put(`/contracts-hash/${contractId}`, { contract_hash: hash });

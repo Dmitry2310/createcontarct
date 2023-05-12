@@ -95,7 +95,7 @@ const MainContent = () => {
         }
     };
 
-    const [selectedType, setSelectedType] = useState("Approved");
+    const [selectedType, setSelectedType] = useState("Waiting for approval");
     const [isInbox, setisInbox] = useState(true);
     const dispatch = useDispatch();
     const contractList = useSelector((state) => state.contract.list);

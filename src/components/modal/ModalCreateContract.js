@@ -29,13 +29,11 @@ import { actions } from '../../reducers/notifikationReducer';
 import Grid from '@mui/material/Grid';
 import 'react-dropzone-uploader/dist/styles.css';
 import '@react-pdf-viewer/core/lib/styles/index.css';
-import { Viewer, Worker } from '@react-pdf-viewer/core';
+/* import { Viewer, Worker } from '@react-pdf-viewer/core'; */
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
 import { Typography } from '@mui/material';
+import Preview from './UploadContract/Preview';
 
 
 const style = {
@@ -65,34 +63,12 @@ const ModalCreateContract = ({ open, handleClose, setUpdate }) => {
     const defaultLayoutPluginInstance = defaultLayoutPlugin();
     const [uploadedFilesType, setUploadedFilesType] = useState('');
     const [filesTypeFunction, setFilesTypeFunction] = useState('');
-    // check uploaded files type
-    const PDFFileTypes = ['pdf', 'pdf/a', 'pdf/e', 'pdf/x', 'pdf/vt', 'pdf/ua', 'pades'];
-    const imageTypes = ["jpeg", "png", "jpg"];
-    const excelTypes = ['xlsx', 'xlsm', 'xls', 'xltl', 'xltm'];
-    const outlookTypes = ['eml', 'vcf', 'nws', 'mbx', 'dbx'];
-    const wordTypes = ['doc', 'dot', 'wbk', 'docm', 'dotx', 'dotm', 'docx'];
+    
     const [uploadedFile, setUploadedFile] = useState(null);
     const [fileSize, setFileSize] = useState(0);
     const createContractApi = useApi(createContract);
     const sendContractEmailApi = useApi(sendContractEmail);
     const getEmailApi = useApi(getEmail);
-
-    /*  const [numPages, setNumPages] = useState(null);
-     const [pageNumber, setPageNumber] = useState(1);
-     function onDocumentLoadSuccess({ numPages }) {
-         setNumPages(numPages);
-       } */
-
-    /*  useEffect(() => {
-         console.log('close')
-         setFilename('')
-         setUploadedFile(null);
-     }, [handleClose])
- 
-     const clearFile = () => {
-         setFilename('')
-         setUploadedFile(null);
-     } */
 
     const getEmailHandling = async (email) => {
         if (email == user.user_email) {
@@ -201,8 +177,9 @@ const ModalCreateContract = ({ open, handleClose, setUpdate }) => {
         }
         if (status == "removed") {
             setUploadedFile('');
-            setUploadedFilesType('')
+            setUploadedFilesType('');
             setFileSize(0);
+            setFilesTypeFunction('');
         }
     };
 
@@ -211,17 +188,6 @@ const ModalCreateContract = ({ open, handleClose, setUpdate }) => {
         getEmailHandling(clientEmail);
     };
 
-    /* const [selectedImage, setSelectedImage] = useState('');
-    const hiddenFileInput = React.useRef(null);
-    const handleAvatarChange = (e) => {
-        if (e.target.files) {
-            setSelectedImage(e.target.files[0]);
-        }
-    };
-    const handleClickFile = () => {
-        hiddenFileInput.current.click();
-    }; */
-    console.log(filesTypeFunction)
     return (
         <div>
             <Modal
@@ -237,7 +203,6 @@ const ModalCreateContract = ({ open, handleClose, setUpdate }) => {
                 sx={{ top: '10%', minWidth: { xs: '300px', md: '700px' } }}
             >
                 <Fade in={open}>
-                    {/* <Grid container xs={12} sm={9} md={6}> */}
                     <Box sx={style} >
                         <Grid container gap={0}>
                             <Grid item xs={12} md={6}>
@@ -278,8 +243,6 @@ const ModalCreateContract = ({ open, handleClose, setUpdate }) => {
                                                     onChangeStatus={handleChangeStatus}
                                                     onSubmit={handleSubmit}
                                                     maxFiles={1}
-                                                    /*  maxSizeBytes = {1000000} */
-                                                    /* multiple={false} */
                                                     inputContent={t("drag_Files")}
                                                     submitButtonContent={t("submit")}
 
@@ -301,81 +264,24 @@ const ModalCreateContract = ({ open, handleClose, setUpdate }) => {
                                                             justifyContent: 'center',
                                                             alignItems: 'center'
                                                         }
-                                                        /* inputLabel: {
-                                                            lineHeight: '50px', width: '100%', background: '#63BCE5',
-                                                            display: 'inline-block', textAlign: 'center', borderRadius: 10, color: '#fff',
-                                                            cursor: 'pointer', boxShadow: '0px 3px 3px -2px rgb(0 0 0 / 40%)'
-                                                        } */
                                                     }}
                                                     disabled={
                                                         getEmailApi.loading ||
                                                         createContractApi.loading ||
                                                         sendContractEmailApi.loading
                                                     }
-                                                /*  accept="image/*,audio/*,video/*,.pdf" */
                                                 ></Dropzone>
                                                 {(fileSize > 1000000) && <Typography sx={{ fontSize: { xs: '0.6rem', md: '0.8rem' }, textAlign: 'center', color: 'red' }}>{t("File_size_should_not_exceed_1MB")}</Typography>}
-                                                {/* <Preview files={uploadedFile} /> */}
-                                                {/* <div sx={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
-                                                    <input type='file' style={{ display: 'none' }} onChange={handleAvatarChange} ref={hiddenFileInput}></input>
-                                                    <Button variant='contained' onClick={handleClickFile}>select a file</Button>
-                                                </div> */}
                                             </Stack>
                                         </LocalizationProvider>
                                     </div>
                                 </ThemeProvider >
                             </Grid>
                             <Grid item xs={12} md={6} sx={{ maxHeight: { xs: '200px', md: '500px' }, overflow: 'hidden', overflowY: 'auto' }}>
-                                <Box sx={{ height: { xs: '200px', md: '500px' }, overflow: 'hidden', overflowY: 'auto', padding: { xs: '5px 5px 60px 5px', md: '20px' } }}>
-                                    {!uploadedFile
-                                        ?
-                                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: { xs: '200px', md: '500px' }, width: ' 100%', padding: { xs: '5px 5px 20px 5px', md: '35px 35px 70px 35px' } }}>
-                                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', width: ' 100%', border: '2px solid silver' }}>
-                                                <UploadFileIcon sx={{ opacity: '0.3', height: '100px', width: '100px' }} />
-                                            </div>
-                                        </Box>
-                                        :
-                                        <>
-                                            {(uploadedFilesType.startsWith('image/') || imageTypes.includes(filesTypeFunction))
-                                                &&
-                                                <>
-                                                    <Card sx={{ position: 'relative', paddingTop: '56.25%', minHeight: { xs: '100px', md: '300px' }, marginTop: { xs: '0px', md: '10%' } }} raised elevation={6}>
-                                                        <CardMedia style={{ position: 'absolute', top: '0', left: '0', width: '100%' }} component="img" image={uploadedFile} />
-                                                    </Card>
-                                                </>
-                                            }
-                                            {(PDFFileTypes.includes(filesTypeFunction))
-                                                &&
-                                                <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.3.122/build/pdf.worker.min.js'>
-                                                    <Viewer fileUrl={uploadedFile} /* plugins={{[defaultLayoutPluginInstance]}} */ />
-                                                </Worker>
-                                            }
-                                            {(wordTypes.includes(filesTypeFunction))
-                                                &&
-                                                <>
-                                                    <Worker workerUrl='https://unpkg.com/pdfjs-dist@3.3.122/build/pdf.worker.min.js'>
-                                                    <Viewer fileUrl={uploadedFile} /* plugins={{[defaultLayoutPluginInstance]}} */ />
-                                                </Worker>
-                                                </>
-                                            }
-                                            {/* {(uploadedFilesType.startsWith('application/vnd') || excelTypes.includes(uploadedFilesType))
-                                                &&
-                                                <span>Excel</span>
-                                            } */}
-                                        </>
-                                    }
-                                </Box>
+                                <Preview uploadedFile={uploadedFile} uploadedFilesType={uploadedFilesType} filesTypeFunction={filesTypeFunction}/>
                             </Grid>
                         </Grid>
-                        {/*  <div style={{ width: '100%', height: '700px', border: '2px solid black', padding: '15px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', overflowY: 'auto' }}>
-
-                        </div> */}
-                        {/* <Button variant="contained" onClick={(clearFiles)}>
-                            clear
-                        </Button> */}
-
                     </Box>
-                    {/*  </Grid> */}
                 </Fade>
             </Modal>
         </div>
