@@ -34,17 +34,17 @@ const Navigation = ({ chooseInbox, countContract, contractList, handleChoise, se
                     <Box sx={{ width: '100%', bgcolor: '#E6E5E5' }}>
                         <List component="nav" aria-label="main mailbox folders">
                             <ListItemButton
-                                selected={selectedType === "Approved" && isInbox === true}
-                                onClick={() => chooseInbox("Approved")}>
-                                <ListItemText primary={t('approved')} />
-                                <p >{countContract(getContractsByClientIdApi.data, "Approved")}</p>
-                            </ListItemButton>
-                            < Divider />
-                            <ListItemButton
                                 selected={selectedType === "Waiting for approval" && isInbox === true}
                                 onClick={() => chooseInbox("Waiting for approval")}>
                                 <ListItemText primary={t('waiting_for_approval')} />
                                 <p >{countContract(getContractsByClientIdApi.data, "Waiting for approval")}</p>
+                            </ListItemButton>
+                            < Divider />
+                            <ListItemButton
+                                selected={selectedType === "Approved" && isInbox === true}
+                                onClick={() => chooseInbox("Approved")}>
+                                <ListItemText primary={t('approved')} />
+                                <p >{countContract(getContractsByClientIdApi.data, "Approved")}</p>
                             </ListItemButton>
                             < Divider />
                             <ListItemButton
@@ -68,18 +68,18 @@ const Navigation = ({ chooseInbox, countContract, contractList, handleChoise, se
                 <AccordionDetails style={{ background: '#E6E5E5' }}>
                     <Box sx={{ width: '100%', bgcolor: '#E6E5E5' }}>
                         <List component="nav" aria-label="main mailbox folders">
+                        <ListItemButton
+                                selected={selectedType === "Waiting for approval" && isInbox === false}
+                                onClick={() => handleChoise("Waiting for approval")}>
+                                <ListItemText primary={t("waiting_for_approval")} />
+                                <p style={{}}>{countContract(contractList, "Waiting for approval")}</p>
+                            </ListItemButton>
+                            < Divider />
                             <ListItemButton
                                 selected={selectedType === "Approved" && isInbox === false}
                                 onClick={() => handleChoise("Approved")}>
                                 <ListItemText primary={t("approved")} />
                                 <p style={{ /* background: '#63BCE5', padding: '4px', borderRadius: 30, color: '#fff' */ }}>{countContract(contractList, "Approved")}</p>
-                            </ListItemButton>
-                            < Divider />
-                            <ListItemButton
-                                selected={selectedType === "Waiting for approval" && isInbox === false}
-                                onClick={() => handleChoise("Waiting for approval")}>
-                                <ListItemText primary={t("waiting_for_approval")} />
-                                <p style={{}}>{countContract(contractList, "Waiting for approval")}</p>
                             </ListItemButton>
                             < Divider />
                             <ListItemButton

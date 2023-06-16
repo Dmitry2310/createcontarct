@@ -7,7 +7,7 @@ import outlookIcon from "./../../assets/images/outlookIcon.jpeg";
 import wordIcon from "./../../assets/images/wordIcon.png";
 import documentIcon from "./../../assets/images/documentIcon.png";
 import { downloadPdf } from "../../helpers/downloader";
-import { deleteContract, downloadFile, updateContract, sendContractEmail } from "../../api/contractApi";
+import { deleteContract, downloadFile, updateContract, sendContractEmail, getDocPreview } from "../../api/contractApi";
 import useApi from "../../hooks/useApi";
 import { useDispatch } from "react-redux";
 import styles from "./ContractPageStyle.module.css";
@@ -24,7 +24,14 @@ import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
-
+import { InsertEmoticonOutlined } from "@mui/icons-material";
+import baseURL from "../../api/baseURL";
+import { api } from "../../api/client";
+import { Buffer } from 'buffer';
+import Box from '@mui/material/Box';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ContractPage = ({ item, user, setOpenContractId, setUpdate }) => {
 
@@ -77,7 +84,27 @@ const ContractPage = ({ item, user, setOpenContractId, setUpdate }) => {
         const fileType = getExtension(file).toLowerCase();
         setFilesType(fileType);
     }, [item]);
+
     //END check item file type
+
+    //Fetch image preview
+    const [preview, setPreview] = useState('');
+    const getDocumentPreview = useApi(getDocPreview);
+
+    const getPreview = async (fileName) => {
+        const response = await getDocumentPreview.request(fileName);
+        if (response.ok) {
+            let base64ImageString = Buffer.from(response.data, 'binary').toString('base64');
+            setPreview(base64ImageString)
+        } else {
+            console.log('Something wrong');
+        }
+    };
+
+    useEffect(() => {
+        getPreview(item?.contract_file)
+    }, [item]);
+    // END Fetch image preview
 
     /*translate contract`s status-------------------- */
     function StatusSynchronization(text) {
@@ -153,6 +180,27 @@ const ContractPage = ({ item, user, setOpenContractId, setUpdate }) => {
     };
     //--END---Delete contract--------
 
+    //onImage hover
+    const [hovered, setHovered] = useState(false)
+
+    const onEnter = () => {
+        setHovered(true);
+    }
+    const onExit = () => {
+        setHovered(false);
+    }
+    //END onImageHover
+
+    //onDrop to show preview
+    const [openDrop, setOpenDrop] = useState(false);
+    const handleCloseDrop = () => {
+        setOpenDrop(false);
+    };
+    const handleOpenDrop = () => {
+        setOpenDrop(true);
+    };
+    //END onDrop to show preview
+
     useEffect(() => {
         setIsFetching(false);
         if (user.user_id === item.contractA_id) {
@@ -215,10 +263,6 @@ const ContractPage = ({ item, user, setOpenContractId, setUpdate }) => {
                                     <span className={styles.headerDescripItem}> {t("contract_key")}: </span>
                                     <span className={styles.headerItemValue}> {item.contract_hash} </span>
                                 </>
-                                {item.contract_hash
-                                    &&
-                                    <span className={styles.registered}>{t("registered")}</span>
-                                }
                             </div>
                             :
                             null
@@ -227,23 +271,37 @@ const ContractPage = ({ item, user, setOpenContractId, setUpdate }) => {
                             <span className={styles.headerDescripItem}> {t("update")}: </span>
                             <span className={styles.headerItemValue}> {getDateFromContract()} </span>
                         </div>
-
                         <div className={styles.headerBorder}></div>
-
                     </>
                     {/*BODY*/}
                     <div style={{ paddingTop: '10px', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
                         <Card sx={{ maxWidth: 300, backgroundColor: '', minHeight: '300px' }}>
-                            <CardHeader
-                                title={<span style={{ fontWeight: '400', fontSize: '18px', lineHeight: '21px', color: colorStatus, padding: '5px' }}>{StatusSynchronization(item.contract_status)}</span>}
-                            />
-                            <CardMedia
-                                component="img"
-                                height="140"
-                                image={defineType()}
-                                alt="Document"
-                                sx={{ width: '47%', margin: '0 auto', objectFit: 'cover' }}
-                            />
+                            <span style={{ fontWeight: '400', fontSize: '14px', lineHeight: '16px', color: colorStatus, padding: '4px' }}>{StatusSynchronization(item.contract_status)}</span>
+                            <Box sx={{ position: 'relative' }} onMouseEnter={onEnter} onMouseLeave={onExit} >
+                                <Backdrop
+                                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                                    open={openDrop}
+                                    onClick={handleCloseDrop}
+                                >
+                                    <Box sx={{width: '90%', height: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                        <img src={`data:image/png;base64, ${preview}`} style={{width: 'auto', maxHeight: '90vh'}}></img>
+                                    </Box>
+                                </Backdrop>
+                                <CardMedia
+                                    component="img"
+                                    height="180"
+                                    image={preview !== '' ? `data:image/png;base64, ${preview}` : defineType()}
+                                    alt="Document"
+                                    sx={{ width: '70%', margin: '10px auto 5px auto', objectFit: 'cover' }}
+                                />
+                                {
+                                    hovered
+                                    &&
+                                    <Box onClick={handleOpenDrop} sx={{ background: 'rgba(0, 0, 0, 0.5)', height: '180px', width: '100%', position: 'absolute', top: '0', left: '0', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                        <ZoomInIcon color="white" sx={{ width: '100px', height: '100px', color: 'white', opacity: '0.6' }} />
+                                    </Box>
+                                }
+                            </Box>
                             <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
                                 <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
                                     {t("downloadDescription")}
@@ -255,13 +313,31 @@ const ContractPage = ({ item, user, setOpenContractId, setUpdate }) => {
                         </Card>
                         <div className={styles.buttonsWrapper}>
                             {sender ?
-                                <Typography sx={{ fontWeight: '400', fontSize: '0.875rem', lineHeight: '1.43', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.6)', padding: '10px' }}>
-                                    {t("deleteContractDescription")}
-                                </Typography>
+                                <>
+                                    {
+                                        item.contract_status === "waiting for approval" ?
+                                            <Typography sx={{ fontWeight: '400', fontSize: '0.875rem', lineHeight: '1.43', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.6)', padding: '10px', textAlign: 'center' }}>
+                                                {t("deleteContractDescription")}
+                                            </Typography>
+                                            :
+                                            <Typography sx={{ fontWeight: '600', fontSize: '1.875rem', lineHeight: '1.43', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.6)', padding: '10px', opacity: '0.6', marginTop: '40%', textAlign: 'center' }}>
+                                                {t("registered")}
+                                            </Typography>
+                                    }
+                                </>
                                 :
-                                <Typography sx={{ fontWeight: '400', fontSize: '0.875rem', lineHeight: '1.43', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.6)', padding: '10px' }}>
-                                    {t("contractDescription")}
-                                </Typography>
+                                <>
+                                    {
+                                        item.contract_status === "waiting for approval" ?
+                                            <Typography sx={{ fontWeight: '400', fontSize: '0.875rem', lineHeight: '1.43', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.6)', padding: '10px', textAlign: 'center' }}>
+                                                {t("contractDescription")}
+                                            </Typography>
+                                            :
+                                            <Typography sx={{ fontWeight: '600', fontSize: '1.875rem', lineHeight: '1.43', letterSpacing: '0.01071em', color: 'rgba(0, 0, 0, 0.6)', padding: '10px', opacity: '0.6', marginTop: '40%', textAlign: 'center' }}>
+                                                {t("registered")}
+                                            </Typography>
+                                    }
+                                </>
                             }
                             <div className={styles.buttons} >
                                 {searchedContract
@@ -278,44 +354,17 @@ const ContractPage = ({ item, user, setOpenContractId, setUpdate }) => {
                                                         Submit
                                                     </LoadingButton>
                                                     :
-                                                    < MyButton color={"custom"} variant="contained" onClick={() => { deleteContractHandling(item.id) }} sx={{ borderRadius: '16px', width: '60%', marginTop: '10px' }}>
-                                                        {t("delete")}
-                                                    </MyButton>
+                                                    <>
+                                                        {item.contract_status === "waiting for approval" &&
+                                                            < MyButton color={"custom"} variant="contained" onClick={() => { deleteContractHandling(item.id) }} sx={{ borderRadius: '16px', width: '60%', marginTop: '10px' }}>
+                                                                {t("delete")}
+                                                            </MyButton>
+                                                        }
+                                                    </>
                                                 }
                                             </>
                                             :
                                             <>
-                                                {item.contract_status === "approved"
-                                                    &&
-                                                    <>
-                                                        {isFetching
-                                                            ?
-                                                            <LoadingButton loading color={"custom"} variant="contained" sx={{ borderRadius: 4, width: '60%', marginTop: '10px' }}>
-                                                                Submit
-                                                            </LoadingButton>
-                                                            :
-                                                            < MyButton color={"custom"} variant="contained" onClick={() => updateContractHandling(item.id, "rejected")} sx={{ borderRadius: '16px', width: '60%', marginTop: '10px' }}>
-                                                                {t("reject")}
-                                                            </MyButton>
-                                                        }
-                                                    </>
-                                                }
-                                                {item.contract_status === "rejected"
-                                                    &&
-                                                    <>
-                                                        {isFetching
-                                                            ?
-                                                            <LoadingButton loading color={"custom"} variant="contained" sx={{ borderRadius: '16px', width: '60%', marginTop: '10px' }}>
-                                                                Submit
-                                                            </LoadingButton>
-                                                            :
-                                                            < MyButton color={"secondary"} variant="contained" onClick={() => updateContractHandling(item.id, "approved")} sx={{ borderRadius: '16px', width: '60%', marginTop: '10px' }}>
-                                                                {t("approve")}
-                                                            </MyButton>
-                                                        }
-
-                                                    </>
-                                                }
                                                 {item.contract_status === "waiting for approval"
                                                     &&
                                                     <>
@@ -339,7 +388,6 @@ const ContractPage = ({ item, user, setOpenContractId, setUpdate }) => {
                                                                 </MyButton>
                                                             </>
                                                         }
-
                                                     </>
                                                 }
                                             </>
